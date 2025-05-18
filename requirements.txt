@@ -5,3 +5,4 @@ scikit-learn
 requests
 # Para futura integração Gemini:
 # google-generativeai
+google-generativeai
