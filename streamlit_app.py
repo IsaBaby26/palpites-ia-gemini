@@ -10,7 +10,12 @@ st.title("IA de Palpites - Brasileirão 2023")
 def obter_partidas_brasileirao(api_key):
     url = "https://v3.football.api-sports.io/fixtures"
     headers = {"x-apisports-key": api_key}
-    params = {"league": 71, "season": 2023, "last": 100}
+    params = {
+    "league": 71,
+    "season": 2023,
+    "from": "2023-01-01",
+    "to": "2023-12-31"
+}
     response = requests.get(url, headers=headers, params=params)
 
     st.write("🔍 Status da resposta da API:", response.status_code)
