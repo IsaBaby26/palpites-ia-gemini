@@ -8,7 +8,7 @@ st.markdown("Escolha os times e receba uma análise automática da IA com base e
 # Campo para a chave da API Gemini
 gemini_api_key = st.text_input("🔑 Cole sua Gemini API Key", type="password")
 
-# Lista básica de times do Brasileirão (personalizável)
+# Lista de times do Brasileirão
 times = [
     "Flamengo", "Palmeiras", "São Paulo", "Corinthians", "Grêmio", "Atlético-MG", 
     "Cruzeiro", "Internacional", "Botafogo", "Fortaleza", "Bragantino", "Fluminense", 
@@ -22,7 +22,8 @@ away_team = st.selectbox("🚩 Time visitante", [t for t in times if t != home_t
 if gemini_api_key and st.button("🎯 Gerar Palpite com IA"):
     try:
         genai.configure(api_key=gemini_api_key)
-        model = genai.GenerativeModel("gemini-pro")
+
+        model = genai.GenerativeModel(model_name="models/gemini-pro")
 
         prompt = f'''
 Você é um analista profissional do futebol brasileiro. 
@@ -46,4 +47,6 @@ Forneça uma resposta clara, completa e confiável.
             st.markdown(resposta.text)
 
     except Exception as e:
-        st.error(f"Erro ao acessar a API Gemini: {e}")
+        st.error(f"❌ Erro ao acessar a API Gemini:
+
+{e}")
