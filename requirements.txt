@@ -6,3 +6,5 @@ requests
 # Para futura integração Gemini:
 # google-generativeai
 google-generativeai
+streamlit
+google-generativeai
