@@ -5,17 +5,28 @@ import requests
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
 
-st.title("IA de Palpites - Brasileirão 2025")
+st.title("IA de Palpites - Brasileirão 2025 (Modo DEBUG)")
 
 def obter_partidas_brasileirao(api_key):
     url = "https://v3.football.api-sports.io/fixtures"
     headers = {"x-apisports-key": api_key}
     params = {"league": 71, "season": 2025, "last": 100}
     response = requests.get(url, headers=headers, params=params)
+
+    # Mostrar código de status da resposta
+    st.write("🔍 Status da resposta da API:", response.status_code)
+
     if response.status_code != 200:
-        st.error("Erro ao consultar API: " + str(response.status_code))
+        st.error(f"Erro ao consultar API: código {response.status_code}")
         return pd.DataFrame()
+
     dados = response.json()
+    st.write("📦 Resposta bruta da API:", dados)
+
+    if not dados.get('response'):
+        st.warning("⚠️ Nenhum jogo encontrado na resposta da API.")
+        return pd.DataFrame()
+
     partidas = []
     for jogo in dados['response']:
         goals = jogo['goals']
@@ -64,13 +75,7 @@ def gerar_palpite_completo(home, away, df, model, label_encoder):
     st.markdown(f"**Palpite principal:** {best} ({prob*100:.1f}%)")
     st.markdown(" | ".join([f"{r}: {p*100:.1f}%" for r, p in result]))
 
-    # Integração futura com Gemini API (comentada)
-    # from google.generativeai import GenerativeModel
-    # model = GenerativeModel("gemini-pro")
-    # explicacao = model.generate_content(f"Explique por que o palpite é '{best}' com base nestas estatísticas: {stats}")
-    # st.markdown(f"🧠 Explicação da IA: {explicacao.text}")
-
-api_key = st.text_input("API Key da API-FOOTBALL", type="password")
+api_key = st.text_input("Cole sua API Key da API-FOOTBALL", type="password")
 
 if st.button("Carregar dados"):
     df = obter_partidas_brasileirao(api_key)
