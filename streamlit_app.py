@@ -5,15 +5,14 @@ import requests
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
 
-st.title("IA de Palpites - Brasileirão 2025 (Modo DEBUG)")
+st.title("IA de Palpites - Brasileirão 2023")
 
 def obter_partidas_brasileirao(api_key):
     url = "https://v3.football.api-sports.io/fixtures"
     headers = {"x-apisports-key": api_key}
-    params = {"league": 71, "season": 2025, "last": 100}
+    params = {"league": 71, "season": 2023, "last": 100}
     response = requests.get(url, headers=headers, params=params)
 
-    # Mostrar código de status da resposta
     st.write("🔍 Status da resposta da API:", response.status_code)
 
     if response.status_code != 200:
