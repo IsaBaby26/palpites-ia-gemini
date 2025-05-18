@@ -22,7 +22,6 @@ away_team = st.selectbox("🚩 Time visitante", [t for t in times if t != home_t
 if gemini_api_key and st.button("🎯 Gerar Palpite com IA"):
     try:
         genai.configure(api_key=gemini_api_key)
-
         model = genai.GenerativeModel(model_name="models/gemini-pro")
 
         prompt = f'''
@@ -47,6 +46,4 @@ Forneça uma resposta clara, completa e confiável.
             st.markdown(resposta.text)
 
     except Exception as e:
-        st.error(f"❌ Erro ao acessar a API Gemini:
-
-{e}")
+        st.error(f"❌ Erro ao acessar a API Gemini: {e}")
